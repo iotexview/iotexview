@@ -1,15 +1,15 @@
 pragma solidity >=0.8.7 <0.9.0;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
 /**
  * @title Staking Token (STK)
  * @author Alberto Cuesta Canada
  * @notice Implements a basic ERC20 staking token with incentive distribution.
  */
-contract StakingToken is ERC20, Ownable {
+abstract contract StakingToken is ERC20, Ownable {
     using SafeMath for uint256;
 
     /**
@@ -32,8 +32,7 @@ contract StakingToken is ERC20, Ownable {
      * @param _owner The address to receive all tokens on construction.
      * @param _supply The amount of tokens to mint on construction.
      */
-    constructor(address _owner, uint256 _supply) 
-        public
+    constructor(address _owner, uint256 _supply)
     { 
         _mint(_owner, _supply);
     }
