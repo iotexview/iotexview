@@ -3,8 +3,10 @@
 # dependencies
 /node_modules
 /src/abis
+/bin
 /.pnp
 .pnp.js
+/openzeppelin-contracts-2.5.0
 
 # testing
 /coverage
