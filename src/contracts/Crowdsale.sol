@@ -29,6 +29,9 @@ contract Crowdsale is Context, ReentrancyGuard {
     // Address where funds are collected
     address payable private _wallet;
 
+    // Address owner of the Crowdsale
+    address payable private _admin;
+
     // How many token units a buyer gets per wei.
     // The rate is the conversion between wei and the smallest and indivisible token unit.
     // So, if you are using a rate of 1 with a ERC20Detailed token with 3 decimals called TOK
@@ -55,7 +58,7 @@ contract Crowdsale is Context, ReentrancyGuard {
      * @param wallet Address where collected funds will be forwarded to
      * @param token Address of the token being sold
      */
-    constructor (uint256 __rate, address payable __wallet, IERC20 __token) {
+    constructor (uint256 __rate, address payable __wallet, IERC20 __token, address payable __admin) {
         require(__rate > 0, "Crowdsale: rate is 0");
         require(__wallet != address(0), "Crowdsale: wallet is the zero address");
         require(address(__token) != address(0), "Crowdsale: token is the zero address");
@@ -63,6 +66,8 @@ contract Crowdsale is Context, ReentrancyGuard {
         _rate = __rate;
         _wallet = __wallet;
         _token = __token;
+        _admin = __admin;
+        
     }
 
     /**
@@ -97,6 +102,13 @@ contract Crowdsale is Context, ReentrancyGuard {
      */
     function rate() public view returns (uint256) {
         return _rate;
+    }
+
+    /**
+     * @return the address of the admin of the Crowdsale.
+     */
+    function admin() public view returns (address payable) {
+        return _admin;
     }
 
     /**
@@ -162,7 +174,7 @@ contract Crowdsale is Context, ReentrancyGuard {
      * @param beneficiary Address performing the token purchase
      * @param tokenAmount Number of tokens to be emitted
      */
-    function _deliverTokens(address beneficiary, uint256 tokenAmount) internal {
+    function _deliverTokens(address beneficiary, uint256 tokenAmount) internal virtual {
         _token.safeTransfer(beneficiary, tokenAmount);
     }
 
